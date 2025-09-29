@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <title>Çuvaşça İyelik Eki Çekimleyici</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 760px; margin: 24px auto; padding: 0 12px; }
+    input, select { font-size: 1rem; padding: 6px; margin: 4px 0; }
+    button { padding: 8px 12px; font-size: 1rem; }
+    .result { background:#f4f4f4; padding:10px; border-radius:6px; margin-top:12px; }
+  </style>
+</head>
+<body>
+  <h1>Çuvaşça İyelik Eki Çekimleyici</h1>
+
+  {% if error %}
+    <p style="color:red">{{ error }}</p>
+  {% endif %}
+
+  <form action="/conjugate" method="post">
+    <label>Kelime:<br>
+      <input name="word" value="{{ word or '' }}" required>
+    </label><br>
+    <label>Şahıs:<br>
+      <select name="person">
+        <option value="1sg">1sg (ben)</option>
+        <option value="2sg">2sg (sen)</option>
+        <option value="3sg">3sg (o)</option>
+        <option value="1pl">1pl (biz)</option>
+        <option value="2pl">2pl (siz)</option>
+        <option value="3pl">3pl (onlar)</option>
+      </select>
+    </label><br>
+    <label>
+      Çoğul:
+      <input type="checkbox" name="plural" {% if plural %}checked{% endif %}>
+    </label><br><br>
+    <button type="submit">Çekimle</button>
+  </form>
+
+  {% if result %}
+    <div class="result">
+      <strong>Girdi:</strong> {{ word }}<br>
+      <strong>Sonuç:</strong> {{ result }} <em>({{ person }}, {{ 'çoğul' if plural else 'tekil' }})</em>
+    </div>
+  {% endif %}
+</body>
+</html>
