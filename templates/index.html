@@ -5,86 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Çuvaşça İyelik Eki Çekimleyici</title>
 
-  <!-- Google Font (isteğe bağlı, çalışması için internete ihtiyaç var) -->
+  <!-- Google Font (isteğe bağlı) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg: #0f1724;            /* koyu arka plan */
-      --card: #0b1220;
-      --muted: #9aa4b2;
-      --accent: #6ee7b7;        /* yumuşak yeşil vurgusu */
-      --accent-2: #60a5fa;      /* mavi ikincil */
-      --glass: rgba(255,255,255,0.04);
-      --radius: 14px;
-      --maxw: 920px;
-    }
-
-    * { box-sizing: border-box; }
-    html,body{ height:100%; margin:0; font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(180deg, #071024 0%, var(--bg) 100%); color: #e6eef6; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
-
-    .container{ max-width:var(--maxw); margin:40px auto; padding:20px; }
-
-    header{
-      display:flex; align-items:center; gap:16px; margin-bottom:20px;
-    }
-    .logo{
-      width:64px; height:64px; border-radius:12px;
-      background: linear-gradient(135deg, rgba(110,231,183,0.14), rgba(96,165,250,0.12));
-      display:grid; place-items:center; box-shadow: 0 6px 24px rgba(2,6,23,0.6);
-      font-weight:700; color:var(--accent); font-size:20px;
-    }
-    h1{ margin:0; font-size:20px; letter-spacing:-0.2px; }
-    p.lead{ margin:4px 0 0 0; color:var(--muted); font-size:13px; }
-
-    main{ display:grid; grid-template-columns: 1fr 360px; gap:20px; align-items:start; }
-    @media (max-width:900px){ main{ grid-template-columns:1fr; } .aside { order:2; } }
-
-    /* Card */
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: var(--radius); padding:18px; box-shadow: 0 6px 30px rgba(2,6,23,0.6);
-      border: 1px solid rgba(255,255,255,0.03);
-    }
-
-    form label{ display:block; margin-bottom:10px; font-size:13px; color:var(--muted); }
-    input[type="text"], select{
-      width:100%; padding:12px 14px; border-radius:10px; outline:none; border:1px solid rgba(255,255,255,0.04);
-      background: rgba(255,255,255,0.02); color:var(--accent);
-      font-size:15px;
-    }
-    input[type="checkbox"]{ transform:scale(1.1); margin-left:6px; vertical-align:middle; }
-
-    .row{ display:flex; gap:12px; align-items:center; }
-    .btn{
-      display:inline-block; padding:10px 14px; border-radius:10px; cursor:pointer; border:0;
-      background: linear-gradient(90deg,var(--accent), var(--accent-2)); color:#052026; font-weight:600;
-      box-shadow: 0 8px 24px rgba(96,165,250,0.08); transition:transform .12s ease, box-shadow .12s ease;
-    }
-    .btn:active{ transform:translateY(1px); }
-
-    /* Result */
-    .result{
-      margin-top:14px; padding:14px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .muted { color:var(--muted); font-size:13px; }
-    .chip { display:inline-block; padding:6px 8px; border-radius:999px; background:var(--glass); font-size:12px; color:var(--muted); margin-left:8px; }
-
-    /* Aside quick help */
-    .aside .hint { font-size:13px; color:var(--muted); line-height:1.45; }
-    .kbd{ display:inline-block; padding:6px 8px; border-radius:6px; background:#071827; border:1px solid rgba(255,255,255,0.03); font-size:12px; color:var(--muted); }
-
-    footer{ margin-top:22px; color:var(--muted); font-size:13px; text-align:center; }
-    small.credits{ display:block; color:var(--muted); margin-top:8px; font-size:12px; }
-
-    /* Tiny responsive tweaks */
-    @media (max-width:480px){
-      .logo{ width:54px; height:54px; font-size:18px; }
-      h1{ font-size:18px; }
-    }
-
-  </style>
+  <!-- Ayrı CSS dosyası -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
   <div class="container">
@@ -92,7 +17,7 @@
       <div class="logo" aria-hidden="true">Ç</div>
       <div>
         <h1>Çuvaşça İyelik Eki Çekimleyici</h1>
-        <p class="lead">Kelime gir → şahsı seç → çekimlenmiş sonucu gör. Hafif, hızlı, güzel.</p>
+        <p class="lead">Kelime gir → şahsı seç → çekimlenmiş sonucu gör.</p>
       </div>
     </header>
 
@@ -103,8 +28,8 @@
           <label for="word">Kelime</label>
           <input id="word" name="word" type="text" inputmode="text" placeholder="ör. ача" required value="{{ word or '' }}" />
 
-          <div style="margin-top:10px; display:flex; gap:12px; align-items:center;">
-            <div style="flex:1">
+          <div class="grid-row">
+            <div class="col">
               <label for="person">Şahıs</label>
               <select id="person" name="person" required>
                 <option value="1sg" {% if person=='1sg' %}selected{% endif %}>1sg — ben</option>
@@ -116,81 +41,70 @@
               </select>
             </div>
 
-            <div style="display:flex;flex-direction:column; justify-content:flex-end;">
-              <label class="muted" style="font-size:12px;">Çoğul</label>
-              <label style="display:flex; align-items:center; gap:6px;">
+            <div class="col col-narrow">
+              <label class="muted small">Çoğul</label>
+              <label class="inline">
                 <input id="plural" name="plural" type="checkbox" {% if plural %}checked{% endif %} />
-                <span class="muted" style="font-size:13px;">(örn. bizim)</span>
+                <span class="muted small"> (örn. bizim)</span>
               </label>
             </div>
           </div>
 
-          <div style="display:flex; gap:10px; margin-top:16px; align-items:center;">
+          <div class="actions">
             <button class="btn" type="submit">Çekimle</button>
-            <button id="exampleBtn" type="button" class="btn" style="background:transparent; color:var(--accent); box-shadow:none; border:1px solid rgba(255,255,255,0.04);">Örnek doldur</button>
+            <button id="exampleBtn" type="button" class="btn alt">Örnek doldur</button>
           </div>
 
           {% if error %}
-            <div class="result" style="margin-top:12px; border-left:4px solid #f87171;">
-              <strong style="color:#f87171;">Hata</strong>
-              <div class="muted" style="margin-top:6px;">{{ error }}</div>
+            <div class="result error">
+              <strong>Hata</strong>
+              <div class="muted">{{ error }}</div>
             </div>
           {% endif %}
 
           {% if result %}
             <div class="result" role="status" aria-live="polite">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div class="result-head">
                 <div>
                   <div class="muted">Girdi</div>
-                  <div style="font-weight:600; font-size:18px; margin-top:6px;">{{ word }}</div>
+                  <div class="big">{{ word }}</div>
                 </div>
-                <div style="text-align:right">
+                <div class="right">
                   <div class="muted">Şahıs</div>
-                  <div style="font-weight:600; margin-top:6px;">{{ person }} <span class="chip">{{ 'çoğul' if plural else 'tekil' }}</span></div>
+                  <div class="big">{{ person }} <span class="chip">{{ 'çoğul' if plural else 'tekil' }}</span></div>
                 </div>
               </div>
 
-              <hr style="border:none; height:1px; background:rgba(255,255,255,0.03); margin:12px 0;" />
+              <hr class="sep" />
 
-              <div style="font-size:20px; font-weight:700; color:var(--accent);">
-                {{ result }}
-              </div>
-
-              <div style="margin-top:10px;">
-                <small class="muted">Kopyalamak için seçip Ctrl+C / Cmd+C yapabilirsin.</small>
-              </div>
+              <div class="final">{{ result }}</div>
+              <div class="muted small">Kopyalamak için seçip Ctrl+C / Cmd+C yapabilirsiniz.</div>
             </div>
           {% endif %}
         </form>
       </section>
 
       <!-- Right: Aside -->
-      <aside class="aside card" style="height:fit-content;">
+      <aside class="aside card">
         <div class="hint">
           <strong>Kısa Yardım</strong>
-          <p style="margin-top:8px;">Aşağıdaki kısa noktalar işine yarayabilir:</p>
-          <ul style="color:var(--muted); padding-left:18px; margin-top:6px;">
-            <li>Kelimeyi Çuvaşça harfleriyle gir (küçük harf daha güvenli).</li>
-            <li>Şahıs seçimi sonucu belirler: 1sg = benim, 2sg = senin, 3pl = onların vb.</li>
-            <li>Çoğul seçersen sonuna çokluk eki eklenir.</li>
-          </ul>
+          <p class="muted">Kelimeyi Çuvaşça harfleriyle girin (küçük harf daha güvenli). Şahıs seçimi sonucu belirler; çoğul seçersen çokluk eki eklenir.</p>
 
-          <p style="margin-top:10px;"><span class="kbd">Örnek</span> <span class="muted">— aча → aчам</span></p>
+          <p class="muted"><span class="kbd">Örnek</span> — aча → aчам</p>
 
-          <hr style="border:none; height:1px; background:rgba(255,255,255,0.03); margin:12px 0;" />
+          <hr class="sep" />
 
-          <p class="muted">Bu sayfa statik bir Flask uygulaması tarafından sunuluyor. Görünümü değiştirip özelleştirmek istersen bana söyle; renkleri, yazı tipini veya küçük logo eklemeyi yaparım.</p>
+          <p class="muted">Sayfa Flask tarafından sunulur. Stil, <code>/static/styles.css</code> dosyasında tutulur.</p>
         </div>
       </aside>
     </main>
 
     <footer>
-      <small class="credits">Kod: sen + biraz sihir ✨ · Tasarım: minimal ve okunaklı.</small>
+      <small class="credits">Kod: sen + biraz sihir ✨ · Tasarım: minimal</small>
     </footer>
   </div>
 
   <script>
-    // Küçük JS: "Örnek doldur" butonu ve form alanı korunumu
     (function(){
       const exampleBtn = document.getElementById('exampleBtn');
       const wordInput = document.getElementById('word');
@@ -203,15 +117,7 @@
         pluralChk.checked = false;
         wordInput.focus();
       });
-
-      // Eğer sunucudan gelen template engine variable'ları mevcutsa (örn. Jinja),
-      // onlar zaten input value/checked/select state'i template'ten alıyor.
-      // Bu script sadece client-side örnek doldurma ve UX için.
     })();
   </script>
-</body>
-</html>
-
-  {% endif %}
 </body>
 </html>
