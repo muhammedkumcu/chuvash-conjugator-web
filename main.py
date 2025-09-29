@@ -26,5 +26,5 @@ def conjugate():
     return render_template("index.html", word=word, result=result, person=person, plural=plural)
 
 if __name__ == "__main__":
-    # Prod'da gunicorn kullan; geliştirme amaçlı burada debug True olabilir.
-    app.run(host="0.0.0.0", port=3000, debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 3000)), debug=False)
+
